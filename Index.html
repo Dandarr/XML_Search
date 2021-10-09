@@ -1,0 +1,64 @@
+<head>
+    <style>
+        * {
+            margin: 0%;
+            border: 0%;
+            padding: 0%;
+        }
+
+        button {
+            padding: 1em;
+            border-radius: 4px;
+            position: fixed;
+            margin-top: 30px;
+            margin-left: 120px;
+        }
+
+        .consoleArea {
+            min-width: 400px;
+            min-height: 1200px;
+            margin-left: 60px;
+            margin-top: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <textarea id="xhr1Area" class="consoleArea" disabled></textarea>
+    <textarea id="xhr2Area" class="consoleArea" disabled></textarea>
+    <textarea id="xhr3Area" class="consoleArea" disabled></textarea>
+    <button id="submit">Punch it</button>
+
+</body>
+<script type="text/javascript">
+//init
+//elements
+    let send = document.getElementById("submit");
+    let xhr1Area = document.getElementById("xhr1Area");
+    let xhr2Area = document.getElementById("xhr2Area");
+    let xhr3Area = document.getElementById("xhr3Area");
+    document.addEventListener("onClick", delim());
+    //wordlist array
+    let wordlist = [];
+    //loading files
+    console.log("function delim fired");
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-01", true);
+    let xhr1Response = xhr.responseText;
+    xhr1Area.text = xhr1Response;
+    console.log("xhr1 grabbed");
+    xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-02", true);
+    let xhr2Response = xhr.responseText;
+    xhr2Area.text = xhr2Response;
+    console.log("xhr2 grabbed");
+    xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-03", true);
+    let xhr3Response = xhr.responseText;
+    xhr3Area.textContent = xhr3Response;
+    console.log("xhr3 grabbed");
+
+    //processing data
+    function delim() {
+
+    }
+</script>
