@@ -4,6 +4,8 @@
             margin: 0%;
             border: 0%;
             padding: 0%;
+            background-color: darkblue;
+            color: white;
         }
 
         button {
@@ -15,50 +17,81 @@
         }
 
         .consoleArea {
+            color: greenyellow;
+            background-color: black;
             min-width: 400px;
             min-height: 1200px;
             margin-left: 60px;
             margin-top: 30px;
+        }
+        #title{
+            color:pink;
         }
     </style>
 
 </head>
 
 <body>
-    <textarea id="xhr1Area" class="consoleArea" disabled></textarea>
-    <textarea id="xhr2Area" class="consoleArea" disabled></textarea>
-    <textarea id="xhr3Area" class="consoleArea" disabled></textarea>
+    <h1 id="title">Dandarr's Big Brain Device</h1>
+    <textarea id="xhr1Area" class="consoleArea" disabled>NOT LOADED</textarea>
+    <textarea id="xhr2Area" class="consoleArea" disabled>NOT LOADED</textarea>
+    <textarea id="xhr3Area" class="consoleArea" disabled>NOT LOADED</textarea>
     <button id="submit">Punch it</button>
-
 </body>
+
 <script type="text/javascript">
-//init
-//elements
+    //-------------------------------------------------------Bugs-----------------------------------------------
+    /*
+    - file not printing into text box which stops the rest of the process from continuing
+    - error logging
+    
+    */
+    //------------------------------------------------------init------------------------------------------------
+    //elements
     let send = document.getElementById("submit");
     let xhr1Area = document.getElementById("xhr1Area");
     let xhr2Area = document.getElementById("xhr2Area");
     let xhr3Area = document.getElementById("xhr3Area");
     document.addEventListener("onClick", delim());
     //wordlist array
-    let wordlist = [];
-    //loading files
-    console.log("function delim fired");
+    let wordlist = ["restlessness", "manic", "akathisia", "lamictal"];
+
+    //------------------------------------------------loading files-----------------------------------------------
+    //file 1
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-01", true);
     let xhr1Response = xhr.responseText;
     xhr1Area.text = xhr1Response;
-    console.log("xhr1 grabbed");
+    //file 2
     xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-02", true);
     let xhr2Response = xhr.responseText;
     xhr2Area.text = xhr2Response;
-    console.log("xhr2 grabbed");
+    //file 3
     xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-03", true);
     let xhr3Response = xhr.responseText;
     xhr3Area.textContent = xhr3Response;
-    console.log("xhr3 grabbed");
 
-    //processing data
+    console.log("all objects successfully obtained");
+    //------------------------------------------------------processing data----------------------------------------
     function delim() {
+        // put each comment into an index of an array
 
+        /*call*/
+        for (i in wordlist.length) {
+            let xhrIndex = "xhr" + (i + 1) + "Area"
+            commentArray.forEach(xhrIndex.search(wordlist[i]), errorLogging(true, commentArray[i]));
+        }
+    }
+
+    function errorLogging(err,obj) {
+        const fs = require('fs');
+        //this wont work as writefile will overwrite itself each time
+        //however it should be possible to concat all error logs into a single string which has tags added then writes to a html file
+        fs.writeFile("/XML_Delimiter/commentLog.txt", JSON.stringify(obj), function (err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log("The file was saved!");
+        });
     }
 </script>
