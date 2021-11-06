@@ -24,8 +24,9 @@
             margin-left: 60px;
             margin-top: 30px;
         }
-        #title{
-            color:pink;
+
+        #title {
+            color: pink;
         }
     </style>
 
@@ -52,19 +53,43 @@
     let xhr1Area = document.getElementById("xhr1Area");
     let xhr2Area = document.getElementById("xhr2Area");
     let xhr3Area = document.getElementById("xhr3Area");
+    let wordlist = ["diagnos%%", "diagnos%%%", "d%%gnos%%", "d%%gnos%%%", "dx", "dx%%"];
     document.addEventListener("onClick", delim());
-    //wordlist array
-    let wordlist = ["restlessness", "manic", "akathisia", "lamictal"];
 
     //------------------------------------------------loading files-----------------------------------------------
     //file 1
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-01", true);
-    let xhr1Response = xhr.responseText;
-    xhr1Area.text = xhr1Response;
+    // As with JSON, use the Fetch API & ES6
+    fetch('xml1.txt')
+        .then(response => response.text())
+        .then(dataXml1 => {
+            // Do something with your data
+            console.log(dataXml1);
+            xhr1Area.text = dataXml1;
+        });
+
+
+
+
+    //    const xhr = new XMLHttpRequest();
+    //     xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-01", true);
+    //     // let xhr1Response = xhr.responseText;
+
+    // xhr.onreadystatechange = function(){
+    //     if (xhr.readyState == 4 && xhr.status == 200){
+    //         xhr1Area.text = xhr.responseText;
+    //     }
+    // };
+    // xhr.send(null);
+    //     console.log(XML.stringify(xhr));
+    //     console.log(xhr1Response);
+
+
     //file 2
-    xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-02", true);
+    //either user has to have file on desktop or i need to find a way to have file location found in relation to localhost
+    //have to use localhost even offline
+    xhr.open("GET", "http://localhost/desktop/XML_Delimiter/FileSet/r-bipolar--2017-02", true);
     let xhr2Response = xhr.responseText;
+    console.log(xhr2Response);
     xhr2Area.text = xhr2Response;
     //file 3
     xhr.open("GET", "/XML_Delimiter/FileSet/r-bipolar--2017-03", true);
@@ -75,6 +100,10 @@
     //------------------------------------------------------processing data----------------------------------------
     function delim() {
         // put each comment into an index of an array
+        //get file as string
+        //slice at start of each comment tag
+        //if index contains word from wordlist && NOT contains "dxm"
+        //save index to ouput file
 
         /*call*/
         for (i in wordlist.length) {
@@ -83,7 +112,8 @@
         }
     }
 
-    function errorLogging(err,obj) {
+    function errorLogging(err, obj) {
+        //require filestream
         const fs = require('fs');
         //this wont work as writefile will overwrite itself each time
         //however it should be possible to concat all error logs into a single string which has tags added then writes to a html file
